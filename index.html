@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hayla | Specialty coffee, brewed slow the Omani way</title>
+  <meta name="description" content="Hayla is a specialty coffee house in Muscat. Small-batch roasts, cardamom lattes, date espresso and kahwa poured at the table, always with dates." />
+  <meta name="theme-color" content="#15100C" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Hayla | Brewed slow, the Omani way" />
+  <meta property="og:description" content="Specialty coffee with cardamom, dates and frankincense honey. Scroll to brew a cup." />
+  <meta property="og:url" content="https://ghassen-mer.github.io/hayla-coffee/" />
+  <meta property="og:image" content="https://ghassen-mer.github.io/hayla-coffee/img/og.jpg" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2315100C'/%3E%3Cpath d='M10 25c-3-6 1-14 8-17 2 6-2 14-8 17z' fill='none' stroke='%23E0A34A' stroke-width='2'/%3E%3Cpath d='M18 8c3-3 7-3 10-1' fill='none' stroke='%23E0A34A' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Gloock&family=Manrope:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="preload" as="image" href="img/hero.jpg" fetchpriority="high" />
+  <script type="module" crossorigin src="./assets/index-DGb7ByYr.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-9T7wT-kl.css">
+</head>
+<body>
+  <!-- Fixed layers behind the page: poster, scrubbed film, live particles, dimmer -->
+  <img class="stage-poster" src="img/hero.jpg" alt="" aria-hidden="true" fetchpriority="high" />
+  <video id="bgv" class="bg-video" muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+  <canvas id="atmos" aria-hidden="true"></canvas>
+  <div class="stage-dim" aria-hidden="true"></div>
+
+  <a class="skip" href="#menu">Skip the story, go to the menu</a>
+
+  <header class="nav">
+    <a class="nav__brand" href="#top" aria-label="Hayla, back to top">
+      <svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M10 25c-3-6 1-14 8-17 2 6-2 14-8 17z" />
+        <path d="M11.5 22.5c1.5-4 3.5-8 6-12" />
+        <path d="M18 8c3-3 7-3 10-1" />
+      </svg>
+      <span>Hayla</span>
+    </a>
+    <nav aria-label="Main">
+      <ul class="nav__links">
+        <li><a href="#story">The cup</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#about">Our story</a></li>
+      </ul>
+    </nav>
+    <a class="btn btn--small" href="#visit">Visit us</a>
+  </header>
+
+  <main id="page">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="hero__copy">
+        <p class="eyebrow">Specialty coffee · Qurum, Muscat</p>
+        <h1 id="hero-title">Hayla</h1>
+        <p class="hero__tagline">Brewed slow, the Omani way.</p>
+        <p class="hero__lede">Small-batch roasts, cardamom, Bahlawi dates and kahwa poured at the table. Follow one cup from bean to steam.</p>
+      </div>
+      <a class="scroll-hint" href="#story">
+        <span class="scroll-hint__drop" aria-hidden="true"></span>
+        Scroll to brew
+      </a>
+    </section>
+
+    <!-- The scroll story: five beats. On desktop the film behind the page is
+         scrubbed by scroll; on phones and with reduced motion each beat shows
+         its own still frame above the text instead. -->
+    <section id="story" aria-label="How a cup of Hayla coffee is made">
+      <article class="beat" data-beat="0">
+        <figure class="beat__still">
+          <img src="img/stage-1.jpg" alt="Roasted coffee beans tumbling into the brass hopper of a grinder." loading="lazy" width="960" height="540" />
+        </figure>
+        <div class="beat__copy">
+          <p class="eyebrow">Origin and roast</p>
+          <h2>Beans that travelled the frankincense road.</h2>
+          <p>Natural and washed lots from the highlands of Yemen and Ethiopia, roasted in small batches in Muscat every week. Medium for espresso, light for kahwa, never more than fourteen days off roast.</p>
+        </div>
+      </article>
+
+      <article class="beat" data-beat="1">
+        <figure class="beat__still">
+          <img src="img/stage-2.jpg" alt="Fresh coffee grounds pouring from a brass grinder chute into a portafilter." loading="lazy" width="960" height="540" />
+        </figure>
+        <div class="beat__copy">
+          <p class="eyebrow">The grind</p>
+          <h2>Ground the moment you order.</h2>
+          <p>Brass burrs turn the beans to a fine, even grind seconds before your shot is pulled. Coffee loses its perfume fast, so we never grind ahead.</p>
+        </div>
+      </article>
+
+      <article class="beat" data-beat="2">
+        <figure class="beat__still">
+          <img src="img/stage-3.jpg" alt="The first drop of espresso forming at the spout above an empty glass cup." loading="lazy" width="960" height="540" />
+        </figure>
+        <div class="beat__copy">
+          <p class="eyebrow">The brew</p>
+          <h2>Nine bars. Twenty&#8209;eight seconds.</h2>
+          <p>The basket locks in, water at 93°C meets the coffee, and steady pressure draws out the sweetness. One shot at a time, tasted every morning before we open.</p>
+        </div>
+      </article>
+
+      <article class="beat" data-beat="3">
+        <figure class="beat__still">
+          <img src="img/stage-4.jpg" alt="Espresso streaming into a double-walled glass cup that is half full." loading="lazy" width="960" height="540" />
+        </figure>
+        <div class="beat__copy">
+          <p class="eyebrow">The pour</p>
+          <h2>Poured slowly, the way a host fills a finjan.</h2>
+          <p>Dark coffee first, then the crema rising gold on top. In Oman you never rush a guest's cup, and we won't rush yours.</p>
+        </div>
+      </article>
+
+      <article class="beat" data-beat="4">
+        <figure class="beat__still">
+          <img src="img/stage-5.jpg" alt="A full glass cup of espresso on a brass tray beside two dates, steam rising in warm light." loading="lazy" width="960" height="540" />
+        </figure>
+        <div class="beat__copy">
+          <p class="eyebrow">The cup</p>
+          <h2>Hot, ready, and served with dates.</h2>
+          <p>Every cup at Hayla arrives on a brass tray with two Bahlawi dates. Stay as long as you like. Kahwa refills are on us.</p>
+          <a class="btn" href="#menu">See the menu</a>
+        </div>
+      </article>
+
+      <!-- Signature element: a slim glass gauge that fills with coffee as the story plays -->
+      <div class="gauge" aria-hidden="true">
+        <div class="gauge__tube"><div class="gauge__fill"></div></div>
+        <ol class="gauge__labels">
+          <li>Beans</li><li>Grind</li><li>Brew</li><li>Pour</li><li>Ready</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="menu" id="menu" aria-labelledby="menu-title">
+      <div class="menu__intro">
+        <h2 id="menu-title">The menu</h2>
+        <p>Espresso classics and Omani signatures, made with real cardamom pods, Bahlawi dates and saffron. Prices in Omani rial.</p>
+        <p class="menu__note"><span class="mark" aria-hidden="true"></span> Omani signature</p>
+      </div>
+
+      <div class="menu__lists">
+        <div class="menu__group">
+          <h3>From the espresso bar</h3>
+          <ul class="menu__list">
+            <li class="item">
+              <div><h4>Hayla Espresso</h4><p>Double shot of the house blend, chocolate and dried fig.</p></div>
+              <span class="price">1.400 <small>OMR</small></span>
+            </li>
+            <li class="item item--signature">
+              <div><h4>Cardamom Latte</h4><p>Espresso, steamed milk and freshly crushed green cardamom.</p></div>
+              <span class="price">1.900 <small>OMR</small></span>
+            </li>
+            <li class="item item--signature">
+              <div><h4>Date Espresso</h4><p>A double shot poured over Bahlawi date syrup.</p></div>
+              <span class="price">2.100 <small>OMR</small></span>
+            </li>
+            <li class="item item--signature">
+              <div><h4>Saffron Rose Flat White</h4><p>Saffron-infused milk and a single drop of rose water.</p></div>
+              <span class="price">2.300 <small>OMR</small></span>
+            </li>
+            <li class="item item--signature">
+              <div><h4>Frankincense Honey Cortado</h4><p>Cortado sweetened with honey infused with Dhofari luban.</p></div>
+              <span class="price">2.200 <small>OMR</small></span>
+            </li>
+            <li class="item item--signature">
+              <div><h4>Date Molasses Cold Brew</h4><p>Eighteen-hour cold brew over ice with date molasses.</p></div>
+              <span class="price">2.000 <small>OMR</small></span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="menu__group menu__group--dallah">
+          <h3>From the dallah</h3>
+          <ul class="menu__list">
+            <li class="item item--signature">
+              <div><h4>Omani Kahwa</h4><p>Light-roast kahwa with cardamom, a dallah for two and dates on the side.</p></div>
+              <span class="price">2.500 <small>OMR</small></span>
+            </li>
+            <li class="item item--signature">
+              <div><h4>Kahwa and Halwa</h4><p>A pot of kahwa with a plate of soft Omani halwa.</p></div>
+              <span class="price">3.200 <small>OMR</small></span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="about" id="about" aria-labelledby="about-title">
+      <img class="about__img" src="img/world.jpg" alt="A coffee counter with a brass grinder, espresso machine and dallah, mountains glowing at dusk beyond the window." loading="lazy" width="1920" height="1086" />
+      <div class="about__copy">
+        <h2 id="about-title">A majlis for coffee people.</h2>
+        <p>Hayla began with one idea: serve specialty coffee the way Omani homes serve kahwa. Generously, without hurry, and always with something sweet on the side.</p>
+        <p>We roast in small batches, buy from farms we know by name, and season our drinks with the flavors we grew up with. The room is quiet, the cups are warm, and nobody will ask you to leave.</p>
+        <dl class="facts">
+          <div><dt>14</dt><dd>days, the most our beans sit off roast</dd></div>
+          <div><dt>93°C</dt><dd>water for every espresso shot</dd></div>
+          <div><dt>2</dt><dd>dates with every cup, always</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <div class="stage-cover">
+      <section class="visit" id="visit" aria-labelledby="visit-title">
+        <div class="visit__info">
+          <h2 id="visit-title">Come in, sit down.</h2>
+          <p class="visit__address">
+            Way 0000, Building 00<br />Qurum, Muscat, Oman<br />
+            <small>Placeholder address. Hayla is a fictional brand.</small>
+          </p>
+          <table class="hours">
+            <caption>Opening hours</caption>
+            <tbody>
+              <tr><th scope="row">Saturday to Thursday</th><td>7:00 to 23:00</td></tr>
+              <tr><th scope="row">Friday</th><td>14:00 to 23:00</td></tr>
+            </tbody>
+          </table>
+          <p class="visit__contact">
+            <a href="tel:+96800000000">+968 0000 0000</a><br />
+            <a href="mailto:hello@hayla.example">hello@hayla.example</a>
+          </p>
+        </div>
+
+        <form class="book" id="book" novalidate>
+          <h3>Save a table</h3>
+          <p class="book__hint">For groups of four or more. We hold tables for fifteen minutes.</p>
+          <label>Name<input name="name" type="text" autocomplete="name" required /></label>
+          <div class="book__row">
+            <label>Guests<input name="guests" type="number" min="1" max="12" value="4" required /></label>
+            <label>Day<input name="day" type="date" required /></label>
+          </div>
+          <button class="btn" type="submit">Request the table</button>
+          <p class="book__done" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <footer class="footer">
+        <div class="footer__brand">
+          <svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true">
+            <path d="M10 25c-3-6 1-14 8-17 2 6-2 14-8 17z" />
+            <path d="M11.5 22.5c1.5-4 3.5-8 6-12" />
+            <path d="M18 8c3-3 7-3 10-1" />
+          </svg>
+          <p>Hayla<br /><span>Brewed slow, the Omani way.</span></p>
+        </div>
+        <ul class="footer__links">
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#about">Our story</a></li>
+          <li><a href="#visit">Visit</a></li>
+          <li><a href="https://instagram.com/" rel="noopener" target="_blank">Instagram (placeholder)</a></li>
+        </ul>
+        <p class="footer__legal">© 2026 Hayla. A fictional brand made for a design demo. Not affiliated with any real company.</p>
+      </footer>
+    </div>
+  </main>
+
+</body>
+</html>
