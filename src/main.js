@@ -80,6 +80,11 @@ function measureKeys() {
 }
 
 function storyProgress() {
+  // ScrollTrigger can fire onUpdate before onRefresh when the story already
+  // peeks onto the first screen (seen on an Honor 9X in Chrome). Without this
+  // keys[] is empty, the read below throws, and the rest of the script, the
+  // film included, never runs.
+  if (!keys.length) measureKeys();
   const y = window.scrollY + innerHeight / 2; // the middle of the screen, in page coordinates
   if (y <= keys[0].y) return 0;
   for (let i = 1; i < keys.length; i++) {
