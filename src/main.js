@@ -166,10 +166,23 @@ if (PHONE) {
   });
 }
 
+// Phones: the film runs at one steady speed for the whole story, the same
+// number of frames for every centimetre scrolled. Matching each paragraph to
+// its stage made some stretches crawl (the 1.6 s brew spread over a whole
+// paragraph looked stuck) and others rush (4 s of beans in the same space).
+// The paragraphs still arrive roughly with their stage; smoothness wins.
+function steadyFilmTime() {
+  if (!keys.length) measureKeys();
+  const start = keys[0].y, end = keys[keys.length - 1].y;
+  const y = window.scrollY + innerHeight / 2;
+  const f = Math.min(1, Math.max(0, (y - start) / (end - start)));
+  return f * STAGE_TIMES[STAGE_TIMES.length - 1];
+}
+
 // One function runs on every scroll update and keeps film + gauge in sync.
 function updateStory() {
   const u = storyProgress();
-  if (PHONE) filmTarget = filmTimeFor(u);
+  if (PHONE) filmTarget = steadyFilmTime();
   else if (!document.body.classList.contains("is-static")) requestSeek(filmTimeFor(u));
   gsap.set(gaugeFill, { scaleY: u / beats.length });           // transform only, cheap
   const active = Math.min(beats.length - 1, Math.floor(u));
@@ -217,6 +230,9 @@ async function initVideo() {
       // included) open their own floating/fullscreen player on play(), so
       // only do it on iOS.
       if (IOS) bgVideo.play().then(() => bgVideo.pause()).catch(() => {});
+      // Wake the phone's decoder now with one tiny seek, so the first swipe
+      // does not pay for starting it (that showed up as a hitch at the top).
+      if (PHONE) requestSeek(0.04);
       document.body.classList.add("video-ready");
       updateStory();
     }, { once: true });
