@@ -16,10 +16,33 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Gloock&family=Manrope:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="preload" as="image" href="img/hero.jpg" fetchpriority="high" />
-  <script type="module" crossorigin src="./assets/index-C3VJyFbS.js"></script>
+  <script type="module" crossorigin src="./assets/index-CaO3ZZ2f.js"></script>
   <link rel="stylesheet" crossorigin href="./assets/index-9T7wT-kl.css">
 </head>
 <body>
+  <!-- ?debug only: a plain script (runs even if the main code cannot) that
+       shows a diagnostics box and records any errors from the start. -->
+  <script>
+    if (/[?&]debug\b/.test(location.search)) {
+      window.__dbgErrors = [];
+      window.addEventListener("error", function (e) {
+        window.__dbgErrors.push((e.message || "load error") + " " + (e.filename || (e.target && (e.target.src || e.target.href)) || ""));
+      }, true);
+      window.addEventListener("unhandledrejection", function (e) { window.__dbgErrors.push("promise: " + (e.reason && e.reason.message || e.reason)); });
+      var dbg = document.createElement("pre");
+      dbg.id = "dbg";
+      dbg.style.cssText = "position:fixed;left:6px;right:6px;bottom:6px;z-index:9999;margin:0;padding:8px;background:rgba(0,0,0,.88);color:#9f9;font:11px/1.35 monospace;white-space:pre-wrap;pointer-events:none;border-radius:4px";
+      dbg.textContent = "debug v3: waiting for main code...";
+      document.body.appendChild(dbg);
+      setTimeout(function () {
+        if (window.__haylaRan) return;
+        dbg.style.color = "#f99";
+        dbg.textContent = "debug v3: MAIN CODE DID NOT RUN\n" + navigator.userAgent +
+          "\nscreen " + innerWidth + "x" + innerHeight + "  modules " + ("noModule" in document.createElement("script")) +
+          "\nerrors:\n" + (window.__dbgErrors.join("\n") || "(none)");
+      }, 6000);
+    }
+  </script>
   <!-- Fixed layers behind the page: poster, scrubbed film, live particles, dimmer -->
   <img class="stage-poster" src="img/hero.jpg" alt="" aria-hidden="true" fetchpriority="high" />
   <video id="bgv" class="bg-video" muted playsinline webkit-playsinline x5-playsinline disablepictureinpicture disableremoteplayback preload="none" aria-hidden="true" tabindex="-1"></video>
