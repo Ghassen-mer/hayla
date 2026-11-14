@@ -169,8 +169,8 @@ ScrollTrigger.create({
 });
 
 // Load the film as a Blob so seeking works even on hosts without HTTP Range
-// support (common on shared hosting). Phones get the 720px square cut (4 MB
-// instead of 11 MB); reduced-motion visitors never download either.
+// support (common on shared hosting). Phones get the 720px square cut (6 MB
+// instead of 11 MB, every frame a keyframe so seeks stay cheap); reduced-motion visitors never download either.
 async function initVideo() {
   if (document.body.classList.contains("is-static")) return;
   try {
@@ -242,8 +242,10 @@ gsap.to(".scroll-hint", {
   scrollTrigger: { trigger: ".hero", start: "top top", end: "20% top", scrub: true },
 });
 
-// ---- Live atmosphere (lighter on phones; three.js loads after the text paints)
-if (!document.body.classList.contains("is-static")) {
+// ---- Live atmosphere (desktop only; three.js loads after the text paints)
+// Phones skip it: a WebGL layer redrawn every frame competes with the video
+// decoder for the same GPU, which made scrubbing lag on mid-range Android.
+if (!PHONE && !document.body.classList.contains("is-static")) {
   import("./atmosphere.js").then(({ initAtmosphere }) => initAtmosphere({ lenis }));
 }
 

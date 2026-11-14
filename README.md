@@ -23,9 +23,16 @@ npx vite preview              # preview the build over HTTP (never open dist/ vi
 - `src/atmosphere.js` + `src/particles.js` draw slow amber motes (steam and
   incense) in a transparent WebGL layer over the film, on desktop only.
 - Phones (768px wide or less) get `public/film-mobile.mp4`, a 720px square
-  cut of the same film (about 4 MB), pinned in a band at the top of the screen
+  cut of the same film (about 6 MB), pinned in a band at the top of the screen
   with the text scrolling underneath. It scrubs the same way and fades out
   when the menu arrives.
+  Every frame of the phone cut is a keyframe, so each scroll step decodes one
+  frame instead of up to eight; that is what keeps scrubbing smooth on
+  mid-range Android. Re-encode it the same way if the film ever changes:
+  from a square cut of the new film, run
+  `ffmpeg -i square.mp4 -an -vf scale=720:720:flags=lanczos -c:v libx264 -profile:v main -pix_fmt yuv420p -g 1 -bf 0 -crf 26 -preset slow -tune film -movflags +faststart film-mobile.mp4`.
+  Phones also skip the
+  particle layer, which competed with the video for the GPU.
 - People with reduced motion turned on, and any visitor whose film fails to
   load, get five still frames (`public/img/stage-*.jpg`) stacked with the text
   instead, and never download a film.

@@ -44,6 +44,7 @@ body.video-ready .stage-poster { opacity: 0; }
 body.video-failed .bg-video { display: none; }
 body.video-failed .stage-poster { opacity: 1; }
 #atmos { z-index: 2; pointer-events: none; }
+.band-fade { display: none; }
 .stage-dim { z-index: 3; background: var(--bg); opacity: 0; pointer-events: none; }
 @media (prefers-reduced-motion: reduce) {
   .bg-video, #atmos { display: none; }
@@ -206,18 +207,25 @@ body.is-static .beat__copy::before { display: none; }
      text scrolling up underneath it and dissolving at its soft bottom edge. */
   :root { --band: min(100vw, 54vh); }
   body:not(.is-static) .bg-video,
-  body:not(.is-static) .stage-poster,
-  body:not(.is-static) #atmos {
+  body:not(.is-static) .stage-poster {
     height: var(--band); bottom: auto; z-index: 12; pointer-events: none;
     object-position: 0% 50%;
-    -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent);
-    mask-image: linear-gradient(to bottom, #000 72%, transparent);
     transition: opacity .5s ease;
   }
+  /* The soft bottom edge is a gradient laid over the film rather than a CSS
+     mask on it: masking a video forces the phone to re-composite the whole
+     band on every new frame, which made scrubbing lag. */
+  body:not(.is-static) .band-fade {
+    display: block; position: fixed; left: 0; right: 0; z-index: 13; pointer-events: none;
+    top: calc(var(--band) * .72); height: calc(var(--band) * .28 + 1px);
+    background: linear-gradient(to bottom, rgba(21,16,12,0), var(--bg));
+    transition: opacity .5s ease;
+  }
+  body:not(.is-static) #atmos { display: none; }
   body:not(.is-static).video-ready .stage-poster { opacity: 0; }
   body:not(.is-static).past-story .bg-video,
   body:not(.is-static).past-story .stage-poster,
-  body:not(.is-static).past-story #atmos { opacity: 0; }
+  body:not(.is-static).past-story .band-fade { opacity: 0; }
   body:not(.is-static) .hero { min-height: 100svh; }
   body:not(.is-static) .beat {
     min-height: 120vh; align-items: center;
