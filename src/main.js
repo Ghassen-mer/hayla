@@ -258,12 +258,13 @@ form.addEventListener("submit", (e) => {
   form.classList.add("is-done");
 });
 
+window.__haylaRan = true;
+
 // ---- Diagnostics: add ?debug to the address to see what the film is doing ----
 if (/[?&]debug\b/.test(location.search)) {
-  const box = document.createElement("pre");
-  box.style.cssText = "position:fixed;left:6px;right:6px;bottom:6px;z-index:9999;margin:0;padding:8px;" +
+  const box = document.getElementById("dbg") || document.body.appendChild(document.createElement("pre"));
+  box.style.cssText ="position:fixed;left:6px;right:6px;bottom:6px;z-index:9999;margin:0;padding:8px;" +
     "background:rgba(0,0,0,.85);color:#9f9;font:11px/1.35 monospace;white-space:pre-wrap;pointer-events:none;border-radius:4px";
-  document.body.appendChild(box);
   const log = [];
   const counts = {};
   ["loadstart","loadedmetadata","loadeddata","canplay","seeking","seeked","stalled","suspend","waiting","error","emptied","abort"]
@@ -276,6 +277,8 @@ if (/[?&]debug\b/.test(location.search)) {
   const render = () => {
     const r = bgVideo.getBoundingClientRect();
     box.textContent = [
+      "debug v3 (main code running)",
+      ...(window.__dbgErrors || []).slice(-3).map((e) => "error: " + e),
       navigator.userAgent.replace(/^Mozilla\/5\.0 /, ""),
       `screen ${innerWidth}x${innerHeight} dpr ${devicePixelRatio}  phone ${PHONE}  reducedMotion ${REDUCED}  iOS ${IOS}`,
       `body: ${document.body.className || "(none)"}`,
