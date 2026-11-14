@@ -226,7 +226,18 @@ body.is-static .beat__copy::before { display: none; }
   body:not(.is-static).past-story .bg-video,
   body:not(.is-static).past-story .stage-poster,
   body:not(.is-static).past-story .band-fade { opacity: 0; }
-  body:not(.is-static) .hero { min-height: 100svh; }
+  /* Keep the opening text fully below the film band: before this the
+     "Specialty coffee" line sat under the band's faded edge, and on shorter
+     screens the top of "Hayla" did too. */
+  body:not(.is-static) .hero {
+    min-height: 100svh;
+    padding-top: calc(var(--band) + 12px); padding-bottom: 96px;
+  }
+  body:not(.is-static) .hero h1 { font-size: clamp(3.5rem, min(17vw, 9svh), 5rem); }
+  body:not(.is-static) .hero__tagline { margin-bottom: 14px; }
+  /* Room after the last beat so the cup finishing (the last ~3 s of film)
+     gets a proper stretch of scrolling instead of a tiny flick. */
+  body:not(.is-static) #story { padding-bottom: 45svh; }
   body:not(.is-static) .beat {
     min-height: 120vh; align-items: center;
     padding: calc(var(--band) + 24px) 16px 40px;
