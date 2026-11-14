@@ -258,4 +258,35 @@ form.addEventListener("submit", (e) => {
   form.classList.add("is-done");
 });
 
+// ---- Diagnostics: add ?debug to the address to see what the film is doing ----
+if (/[?&]debug\b/.test(location.search)) {
+  const box = document.createElement("pre");
+  box.style.cssText = "position:fixed;left:6px;right:6px;bottom:6px;z-index:9999;margin:0;padding:8px;" +
+    "background:rgba(0,0,0,.85);color:#9f9;font:11px/1.35 monospace;white-space:pre-wrap;pointer-events:none;border-radius:4px";
+  document.body.appendChild(box);
+  const log = [];
+  const counts = {};
+  ["loadstart","loadedmetadata","loadeddata","canplay","seeking","seeked","stalled","suspend","waiting","error","emptied","abort"]
+    .forEach((ev) => bgVideo.addEventListener(ev, () => {
+      counts[ev] = (counts[ev] || 0) + 1;
+      if (counts[ev] <= 2) log.push(`${(performance.now() / 1000).toFixed(1)}s ${ev}`);
+    }));
+  window.addEventListener("error", (e) => log.push("JS error: " + e.message));
+  const cs = getComputedStyle(bgVideo);
+  const render = () => {
+    const r = bgVideo.getBoundingClientRect();
+    box.textContent = [
+      navigator.userAgent.replace(/^Mozilla\/5\.0 /, ""),
+      `screen ${innerWidth}x${innerHeight} dpr ${devicePixelRatio}  phone ${PHONE}  reducedMotion ${REDUCED}  iOS ${IOS}`,
+      `body: ${document.body.className || "(none)"}`,
+      `h264: ${bgVideo.canPlayType('video/mp4; codecs="avc1.64001F"') || "no"}  src: ${bgVideo.src ? bgVideo.src.slice(0, 5) : "(none)"}`,
+      `ready ${bgVideo.readyState} net ${bgVideo.networkState} dur ${bgVideo.duration} t ${bgVideo.currentTime.toFixed(2)} err ${bgVideo.error ? bgVideo.error.code + " " + bgVideo.error.message : "-"}`,
+      `video box ${Math.round(r.width)}x${Math.round(r.height)} display ${cs.display} opacity ${getComputedStyle(bgVideo).opacity}`,
+      `seeked x${counts.seeked || 0}  seeking x${counts.seeking || 0}`,
+      ...log.slice(-8),
+    ].join("\n");
+  };
+  setInterval(render, 400);
+}
+
 if (import.meta.env.DEV) { window.__bgv = bgVideo; window.__lenis = lenis; window.__ST = ScrollTrigger; window.__story = { storyProgress, filmTimeFor }; }
