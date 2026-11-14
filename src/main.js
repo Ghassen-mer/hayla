@@ -29,6 +29,8 @@ const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
 // Must match the media query on .bg-video in style.css exactly.
 const STATIC_HERO = matchMedia("(prefers-reduced-motion: reduce)");
 const PHONE = matchMedia("(max-width: 768px)").matches;
+const IOS = /iP(hone|ad|od)/.test(navigator.userAgent) ||
+  (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1); // iPadOS reports as a Mac
 const goStatic = () => document.body.classList.add("is-static");
 if (STATIC_HERO.matches) goStatic();
 
@@ -107,14 +109,23 @@ function filmTimeFor(u) {
 const bgVideo = document.getElementById("bgv");
 let seekBusy = false, pendingTime = null, lastVideoT = -1;
 
+let seekWatchdog = 0;
 function requestSeek(t) {
   if (!bgVideo.duration) return;
   t = Math.min(t, bgVideo.duration - 0.05);
   if (Math.abs(t - lastVideoT) < 0.008) return;   // already there
   if (seekBusy) { pendingTime = t; return; }       // wait for the current seek
   seekBusy = true; lastVideoT = t; bgVideo.currentTime = t;
+  // Some older Android decoders occasionally never fire "seeked". Without this
+  // the film would freeze on its first frame for the rest of the visit.
+  clearTimeout(seekWatchdog);
+  seekWatchdog = setTimeout(() => {
+    seekBusy = false;
+    if (pendingTime !== null) { const p = pendingTime; pendingTime = null; requestSeek(p); }
+  }, 1000);
 }
 bgVideo.addEventListener("seeked", () => {
+  clearTimeout(seekWatchdog);
   seekBusy = false;
   if (pendingTime !== null) { const t = pendingTime; pendingTime = null; requestSeek(t); }
 });
@@ -161,15 +172,29 @@ async function initVideo() {
     // Relative paths, so the site also works from a subfolder (GitHub Pages).
     const res = await fetch(PHONE ? "film-mobile.mp4" : "film.mp4");
     if (!res.ok) throw new Error(res.status);
-    bgVideo.src = URL.createObjectURL(await res.blob());
-    bgVideo.load();
-    bgVideo.addEventListener("loadedmetadata", () => {
+    const blob = await res.blob();
+    // The HTML says preload="none" so nothing downloads before we decide which
+    // cut to use. Now the whole file is already in memory, so switch to "auto":
+    // older Android browsers (e.g. Huawei/Honor) honour "none" even after
+    // load() and never decode the metadata, leaving the film stuck.
+    bgVideo.preload = "auto";
+    bgVideo.muted = true;   // the attribute alone is not enough on some Android browsers
+    bgVideo.src = URL.createObjectURL(blob);
+    // If the film is still not usable after a while (decoder refused it,
+    // browser stalled), show the five still frames instead of a frozen poster.
+    const giveUp = setTimeout(() => { if (!bgVideo.duration) failVideo(); }, 8000);
+    bgVideo.addEventListener("loadeddata", () => {
+      clearTimeout(giveUp);
       // iOS Safari only paints seeked frames once a muted video has played,
-      // so play it for an instant and pause straight away.
-      bgVideo.play().then(() => bgVideo.pause()).catch(() => {});
+      // so play it for an instant and pause straight away. Android paints
+      // seeked frames without this, and some Android browsers (Huawei's
+      // included) open their own floating/fullscreen player on play(), so
+      // only do it on iOS.
+      if (IOS) bgVideo.play().then(() => bgVideo.pause()).catch(() => {});
       document.body.classList.add("video-ready");
       updateStory();
     }, { once: true });
+    bgVideo.load();
   } catch { failVideo(); }
 }
 initVideo();
