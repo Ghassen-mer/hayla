@@ -74,7 +74,10 @@ let keys = [];
 function measureKeys() {
   const pageY = (el) => el.getBoundingClientRect().top + window.scrollY;
   const top = pageY(story);
-  keys = [{ y: top, u: 0 }];
+  // On phones the film band is on screen from the first moment, so the beans
+  // start as soon as you scroll. That also spreads the busiest stretch of the
+  // film (4 s of falling beans) over almost twice the scroll distance.
+  keys = [{ y: PHONE ? Math.min(top, innerHeight / 2) : top, u: 0 }];
   beats.forEach((b, i) => keys.push({ y: pageY(b) + b.offsetHeight / 2, u: i + 0.5 }));
   keys.push({ y: top + story.offsetHeight - innerHeight / 2, u: beats.length });
 }
@@ -146,10 +149,28 @@ function failVideo() {
 const gaugeFill = document.querySelector(".gauge__fill");
 const gaugeLabels = [...document.querySelectorAll(".gauge__labels li")];
 
+// On phones the scroll is the finger's own (Lenis only smooths the mouse
+// wheel), so a quick flick asks for a big jump in the film in one go and it
+// looks like a stutter. There the film eases towards the wanted moment over a
+// few frames instead, the way Lenis eases the scroll on desktop. This also
+// makes the film glide into place, rather than snap, if it finishes loading
+// after you have already scrolled.
+let filmTarget = 0, filmShown = 0;
+if (PHONE) {
+  gsap.ticker.add(() => {
+    if (!bgVideo.duration || document.body.classList.contains("is-static")) return;
+    const d = filmTarget - filmShown;
+    if (Math.abs(d) < 0.004) return;
+    filmShown = Math.abs(d) < 0.02 ? filmTarget : filmShown + d * 0.22;
+    requestSeek(filmShown);
+  });
+}
+
 // One function runs on every scroll update and keeps film + gauge in sync.
 function updateStory() {
   const u = storyProgress();
-  if (!document.body.classList.contains("is-static")) requestSeek(filmTimeFor(u));
+  if (PHONE) filmTarget = filmTimeFor(u);
+  else if (!document.body.classList.contains("is-static")) requestSeek(filmTimeFor(u));
   gsap.set(gaugeFill, { scaleY: u / beats.length });           // transform only, cheap
   const active = Math.min(beats.length - 1, Math.floor(u));
   gaugeLabels.forEach((li, i) => li.classList.toggle("is-on", i <= active && u > 0));

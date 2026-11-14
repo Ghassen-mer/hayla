@@ -16,6 +16,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Gloock&family=Manrope:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="preload" as="image" href="img/hero.jpg" fetchpriority="high" />
+  <!-- Phones: start downloading the film straight away instead of waiting for
+       the scripts. Must match the fetch() in initVideo (same URL, crossorigin). -->
+  <link rel="preload" as="fetch" href="film-mobile.mp4" crossorigin="anonymous"
+        media="(max-width: 768px) and (prefers-reduced-motion: no-preference)" />
   <link rel="stylesheet" href="/src/style.css" />
 </head>
 <body>
